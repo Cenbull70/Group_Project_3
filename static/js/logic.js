@@ -14,7 +14,7 @@ const radius = 400;       // For actual calculations (1 mile)
 const displayRadius = 10000; // For visualization only
 
 // Fetch GeoJSON data for haunted places
-d3.json("https://raw.githubusercontent.com/asianpenguin701/Data/main/Haunted_Place_KS.geojson")
+d3.json("https://raw.githubusercontent.com/Cenbull70/Group_Project_3/main/Data/Haunted_Place_KS.geojson")
   .then(data => {
     // Create an array for heat map coordinates
     const heatData = data.features.map(feature => {
@@ -58,7 +58,7 @@ d3.json("https://raw.githubusercontent.com/asianpenguin701/Data/main/Haunted_Pla
     });
 
     // Fetch GeoJSON data for historical sites
-    d3.json("https://raw.githubusercontent.com/asianpenguin701/Data/main/KS_historical.geojson")
+    d3.json("https://raw.githubusercontent.com/Cenbull70/Group_Project_3/main/Data/KS_historical.geojson")
       .then(historicalData => {
         const historicalLayer = L.geoJSON(historicalData, {
           onEachFeature: function (feature, layer) {
