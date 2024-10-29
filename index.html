@@ -10,41 +10,119 @@
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+  
+  <!-- Inline CSS for layout adjustments -->
   <style>
-
-      #map {
-      width: 100%;         
-      height: 80vh;         
-      max-height: 600px;   
- 
+    /* Main container with a flex layout */
+    body {
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh; /* Set full viewport height */
     }
-    </style>
 
-  <!-- Our CSS -->
-  <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    /* Header styling */
+    #header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      background-color: #333;
+      color: #fff;
+    }
+
+    /* Header elements */
+    #header h1 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+
+    #header select, #header button {
+      padding: 5px;
+      font-size: 1em;
+    }
+
+    /* Map and sidebar container */
+    #content {
+      display: flex;
+      flex-grow: 1; /* Ensures it fills remaining space */
+      height: calc(100vh - 50px); /* Adjusted for header height */
+    }
+
+    /* Map container styling */
+    #map {
+      width: 75%;
+      height: 100%;
+    }
+
+    /* Sidebar styling */
+    #sidebar {
+      width: 25%;
+      padding: 20px;
+      overflow-y: auto;
+      background-color: #f4f4f4;
+      border-left: 1px solid #ddd;
+    }
+
+    /* Optional styling for the summary section */
+    #summary {
+      padding: 10px;
+      background-color: #f9f9f9;
+      border-top: 1px solid #ddd;
+    }
+  </style>
 </head>
 
 <body>
 
-  <h1>Lost Souls: A Web of Haunted Connections</h1>
-  <div id="map"></div>
+  <!-- Header with title, dropdown, and reset zoom button -->
+  <div id="header">
+    <h1>Lost Souls: A Web of Haunted Connections</h1>
+    <select id="countySelect">
+      <option value="">Choose a county</option>
+      <!-- Options will be populated dynamically by JavaScript -->
+    </select>
+    <button id="resetZoom">Reset Zoom</button> <!-- Reset button added here -->
+  </div>
 
-  
+  <!-- Content area with map and sidebar -->
+  <div id="content">
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <!-- Sidebar for displaying information -->
+    <div id="sidebar">
+      <h2>Nearby Locations</h2>
+      <div id="locationInfo">Select a haunted place to view nearby hospitals and cemeteries.</div>
+    </div>
+  </div>
+
+  <!-- Summary or footer section with additional information -->
+  <div id="summary">
+    <h3>Summary</h3>
+    <ul>
+      <li>This map displays haunted places in Kansas.</li>
+      <li>Heat map visualizes the density of haunted places.</li>
+      <li>Circle markers indicate haunted locations (purple) and historical sites (blue).</li>
+      <li>Buffer zones show proximity of haunted places to historical sites.</li>
+      <li>Percentage of haunted places near historical sites is calculated.</li>
+    </ul>
+  </div>
 
   <!-- Include Leaflet plugins -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
-  <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.js"></script>
 
-  <!-- Include turf spatial anaylsis library -->
+  <!-- Include turf spatial analysis library -->
   <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
 
   <!-- D3 JavaScript -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
   
-  <!-- Our JavaScript -->
+  <!-- Our JavaScript file -->
   <script type="text/javascript" src="static/js/logic.js"></script>
 
 </body>
-
 </html>
