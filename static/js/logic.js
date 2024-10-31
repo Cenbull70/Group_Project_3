@@ -10,7 +10,6 @@ document.getElementById("resetZoom").addEventListener("click", () => {
   countySelect.value = ""; // Clear dropdown selection
   if (selectedCountyLayer) selectedCountyLayer.removeFrom(myMap); // Remove highlighted county layer
   selectedCountyLayer = null; // Clear reference to the selected layer
-  clearSidebar(); // Clear sidebar when reset is clicked
 });
 
 // Define and add the Thunderforest base layer
@@ -19,18 +18,10 @@ let baseLayer = L.tileLayer('https://tile.thunderforest.com/outdoors/{z}/{x}/{y}
 }).addTo(myMap);
 
 // Define buffer radii in meters
-const radius = 400; // For analysis calculations (1 mile)
-const displayRadius = 10000; // For display visualization (10 km)
+const radius = 403; // For analysis calculations (1/4 mile)
+const displayRadius = 10000; // For visual display (6.2 mile)
 
 let selectedCountyLayer; // Track selected county layer for removal
-
-// Create a custom pane for the county boundaries with a lower z-index
-myMap.createPane("countyPane");
-myMap.getPane("countyPane").style.zIndex = 250; // Set a lower z-index for county boundaries
-
-// Create a custom pane for haunted places with a higher z-index
-myMap.createPane("hauntedPane");
-myMap.getPane("hauntedPane").style.zIndex = 1000; // Higher z-index to ensure haunted places are on top
 
 // Load hospitals and cemeteries data
 let hospitals = [];
@@ -78,19 +69,6 @@ function updateSidebar(hauntedLocation, nearbyHospitals, nearbyCemeteries) {
   }
 }
 
-// New function to update the sidebar with county information
-function updateCountySidebar(countyName, population) {
-  const locationInfo = document.getElementById("locationInfo");
-  locationInfo.innerHTML = `<h3>${countyName} County</h3>`;
-  locationInfo.innerHTML += `<p>Population: ${population || "Data not available"}</p>`;
-}
-
-// Clear sidebar function
-function clearSidebar() {
-  const locationInfo = document.getElementById("locationInfo");
-  locationInfo.innerHTML = `<p>Select a location to view more details</p>`;
-}
-
 // Load haunted places, county boundaries, census data, and historical sites
 Promise.all([
   d3.json("https://raw.githubusercontent.com/Cenbull70/Group_Project_3/main/Data/Haunted_Place_KS.geojson"),
@@ -133,16 +111,21 @@ Promise.all([
       });
     },
     pointToLayer: (feature, latlng) => L.circleMarker(latlng, { radius: 8, color: "white", fillColor: "purple", fillOpacity: 0.5, weight: 1 }),
-    pane: "hauntedPane" // Assign to the custom pane with higher z-index
-  }).addTo(myMap); // Add only haunted places on map load
+    pane: "markerPane" // Ensure it's on a pane above the county layer
+  }).addTo(myMap);
 
-  // County Boundaries Layer with Dropdown Functionality, added to the custom pane
+  // Create custom pane for county boundaries
+  myMap.createPane("countyPane");
+  myMap.getPane("countyPane").style.zIndex = 450; // Set a lower z-index for county boundaries
+
+  // Load county boundaries
   const countyLayer = L.geoJSON(countyData, {
-    style: { color: "gray", weight: 1.5, fillOpacity: 0 }, // No fill color for counties
-    pane: "countyPane", // Assign to the custom pane with a lower z-index
+    style: { color: "gray", weight: 1.5, fillOpacity: 0 },
+    pane: "countyPane",
     interactive: false // Prevents the county layer from capturing clicks
   }).addTo(myMap);
 
+  // Populate county dropdown
   const countySelect = document.getElementById("countySelect");
   countyData.features.map(feature => feature.properties.name).sort().forEach(countyName => {
     const option = document.createElement("option");
@@ -157,12 +140,12 @@ Promise.all([
 
     if (county) {
       if (selectedCountyLayer) selectedCountyLayer.removeFrom(myMap); // Remove previous selected county
-      selectedCountyLayer = L.geoJSON(county, { style: { color: "blue", weight: 2, fillOpacity: 0.1 }, pane: "countyPane" }).addTo(myMap);
+      selectedCountyLayer = L.geoJSON(county, {
+        style: { color: "blue", weight: 2, fillOpacity: 0.1 }, // Reduced fill opacity
+        pane: "countyPane",
+        interactive: false // Prevents county selection layer from blocking clicks
+      }).addTo(myMap);
       myMap.fitBounds(selectedCountyLayer.getBounds());
-
-      // Update sidebar with county information
-      const population = county.properties.population || "Data not available";
-      updateCountySidebar(selectedCounty, population);
     }
   });
 
@@ -225,25 +208,74 @@ Promise.all([
     pointToLayer: (feature, latlng) => L.circleMarker(latlng, { radius: 7, color: "white", fillColor: "blue", fillOpacity: 0.4, weight: 1 })
   });
 
+  const bufferLayerGroup = L.layerGroup(); 
+  const displayBufferLayerGroup = L.layerGroup();
+
+  const hauntedPlaces = turf.featureCollection(hauntedData.features);
+  const historicalSites = turf.featureCollection(historicalData.features);
+  let countWithinRadius = 0;
+
+  historicalSites.features.forEach(site => {
+    const siteBuffer = turf.buffer(site, radius, { units: 'meters' });
+    const bufferLayer = L.geoJSON(siteBuffer, { style: { color: 'white', fillColor: 'gray', weight: 1, fillOpacity: 0.3 }});
+    bufferLayerGroup.addLayer(bufferLayer);
+
+    const hauntedWithinBuffer = turf.pointsWithinPolygon(hauntedPlaces, siteBuffer);
+    countWithinRadius += hauntedWithinBuffer.features.length;
+
+    const displayBuffer = turf.buffer(site, displayRadius, { units: 'meters' });
+    const displayBufferLayer = L.geoJSON(displayBuffer, { style: { color: 'gray', weight: 1, fillOpacity: 0.4 }}).bindPopup(`Display Buffer Radius: ${displayRadius} meters`);
+    displayBufferLayerGroup.addLayer(displayBufferLayer);
+  });
+
+  const totalHauntedPlaces = hauntedPlaces.features.length;
+  const percentageNearHistorical = (countWithinRadius / totalHauntedPlaces) * 100;
+  console.log(`Number of haunted places within 1/4 mile of a historical site: ${countWithinRadius}`);
+  console.log(`Percentage of haunted places near historical sites: ${percentageNearHistorical.toFixed(2)}%`);
+
   // Add color ramp legend for Census Heatmap
   const legend = L.control({ position: "bottomright" });
   legend.onAdd = function () {
     const div = L.DomUtil.create("div", "info legend");
     const populationRanges = [0, 1000, 2000, 5000, 10000, 20000, 50000, 100000];
     const colors = ["#FFEDA0", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"];
+
+    // Create legend labels with the corresponding color ramp
     for (let i = 0; i < populationRanges.length; i++) {
-      div.innerHTML += `<i style="background:${colors[i]}"></i> ${populationRanges[i]}${populationRanges[i + 1] ? "&ndash;" + populationRanges[i + 1] + "<br>" : "+"}`;
+      const from = populationRanges[i];
+      const to = populationRanges[i + 1];
+      div.innerHTML += `
+        <i style="background:${colors[i]}; width: 18px; height: 18px; display: inline-block; margin-right: 5px;"></i>
+        ${from}${to ? '&ndash;' + to : '+'}<br>
+      `;
     }
+
     return div;
   };
+
+  // Initially hide the legend
   legend.addTo(myMap);
+  legend.getContainer().style.display = 'none';
+
+  // Show or hide the legend based on the census heatmap layer toggle
+  myMap.on('overlayadd', function (eventLayer) {
+    if (eventLayer.name === 'Census Heatmap') {
+      legend.getContainer().style.display = 'block';
+    }
+  });
+  myMap.on('overlayremove', function (eventLayer) {
+    if (eventLayer.name === 'Census Heatmap') {
+      legend.getContainer().style.display = 'none';
+    }
+  });
 
   // Layer Controls
   const overlayMaps = {
     "Haunted Places": hauntedLayer,
     "Historical Sites": historicalLayer,
     "Heat Map of Haunted Places": heatLayer,
-    "Census Heatmap": heatmapLayer
+    "Census Heatmap": heatmapLayer,
+    "Display Only Analysis Buffers": displayBufferLayerGroup
   };
 
   L.control.layers({ "Base Map": baseLayer }, overlayMaps, { collapsed: false }).addTo(myMap);
