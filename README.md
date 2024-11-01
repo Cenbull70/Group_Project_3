@@ -36,3 +36,10 @@ Lost Souls is an interactive web application designed to map haunted locations i
 
 ## Ethical Considerations
 Ethical Considerations: This project takes care to handle data related to sensitive topics, such as haunted locations and population demographics, respectfully. All data sources are publicly available and vetted to avoid misinformation. The project does not intend to perpetuate myths or sensationalize stories but aims to present the data as a cultural and historical study tool. Users are advised to interpret the data responsibly and not use it for commercial or exploitative purposes.
+
+## Contributors
+Jared Pavlik
+
+Peiwen Chiu
+
+Richard Wallace
