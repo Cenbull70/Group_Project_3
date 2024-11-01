@@ -34,6 +34,17 @@ Lost Souls is an interactive web application designed to map haunted locations i
 - Historical Sites: [GeoJSON source for historical data]
 - Census Data: [US Census data for population]
 
+## Instructions for Use
+Clone the repository:
+``git clone https://github.com/Cenbull70/Group_Project_3.git``
+
+Navigate to the project directory:
+``cd Group_Project_3``
+
+Open index.html in a web browser to start the application.
+
+
+
 ## Ethical Considerations
 Ethical Considerations: This project takes care to handle data related to sensitive topics, such as haunted locations and population demographics, respectfully. All data sources are publicly available and vetted to avoid misinformation. The project does not intend to perpetuate myths or sensationalize stories but aims to present the data as a cultural and historical study tool. Users are advised to interpret the data responsibly and not use it for commercial or exploitative purposes.
 
