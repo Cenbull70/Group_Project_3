@@ -274,7 +274,7 @@ Promise.all([
     "Haunted Places": hauntedLayer,
     "Historical Sites": historicalLayer,
     "Heat Map of Haunted Places": heatLayer,
-    "Census Heatmap": heatmapLayer,
+    "Census Demographic Map": heatmapLayer,
     "Display Only Analysis Buffers": displayBufferLayerGroup
   };
 
