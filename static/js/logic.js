@@ -32,7 +32,7 @@ let hospitals = [];
 let cemeteries = [];
 
 // Load hospitals data
-d3.json("https://raw.githubusercontent.com/Cenbull70/Group_Project_3/main/Data/medical.json")
+d3.json("https://raw.githubusercontent.com/Cenbull70/Group_Project_3/main/Data/medical.geojson")
   .then(data => hospitals = data.map(hospital => ({
     name: hospital.name,
     latitude: hospital.lat,
@@ -41,7 +41,7 @@ d3.json("https://raw.githubusercontent.com/Cenbull70/Group_Project_3/main/Data/m
   .catch(() => console.log("Failed to load hospital data"));
 
 // Load cemeteries data
-d3.json("https://raw.githubusercontent.com/Cenbull70/Group_Project_3/main/Data/cemeteries_2013.json")
+d3.json("https://raw.githubusercontent.com/Cenbull70/Group_Project_3/main/Data/cemetery.geojson")
   .then(data => cemeteries = data.map(cemetery => ({
     name: cemetery.name,
     latitude: cemetery.latitude,
@@ -75,10 +75,10 @@ function updateSidebar(hauntedLocation, nearbyHospitals, nearbyCemeteries) {
 
 // Load haunted places, county boundaries, census data, and historical sites
 Promise.all([
-  d3.json("https://raw.githubusercontent.com/Cenbull70/Group_Project_3/main/Data/Haunted_Place_KS.geojson"),
+  d3.json("https://raw.githubusercontent.com/Cenbull70/Group_Project_3/main/Data/haunted_places.geojson"),
   d3.json("https://raw.githubusercontent.com/Cenbull70/Group_Project_3/main/Data/kansas-with-county-boundaries_1099.geojson"),
   d3.json("https://raw.githubusercontent.com/Cenbull70/Group_Project_3/main/Data/us_census_data_2024.json"),
-  d3.json("https://raw.githubusercontent.com/Cenbull70/Group_Project_3/main/Data/KS_historical.geojson")
+  d3.json("https://raw.githubusercontent.com/Cenbull70/Group_Project_3/main/Data/historical_sites.geojson")
 ]).then(([hauntedData, countyData, censusData, historicalData]) => {
   
   // Haunted Places Heat Layer
