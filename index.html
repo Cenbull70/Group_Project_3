@@ -9,7 +9,6 @@
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
 
   <style>
     /* Main container with a flex layout */
@@ -25,7 +24,7 @@
     #header {
       display: flex;
       align-items: center;
-      padding: 20px 20px;
+      padding: 10px 20px;
       background-color: #2C688C;
       color: #fff;
     }
@@ -33,7 +32,7 @@
     /* Header title styling */
     #header h1 {
       margin: 0;
-      font-size: 1.5em;
+      font-size: 1.6em;
     }
 
     /* Main content layout */
@@ -45,7 +44,7 @@
 
     /* Left sidebar styling */
     #sidebar-left {
-      width: 12%; /* Width of the left sidebar */
+      width: 18%; /* Width of the left sidebar */
       padding: 15px;
       overflow-y: auto;
       background-color: white;
@@ -119,24 +118,26 @@
         <!-- Options populated by JavaScript -->
       </select>
 
-      <!-- Summary content -->
-      <h1>Summary</h1>
-      <h3>This map displays haunted places in Kansas in relation to historic sites, cemeteries and hospitals.</h3>
-      <ul>
-        <li>The haunted places layer shows locations that have been reported to be "spoooooky".</li>
-
-        <li>The historic sites layer shows historical significant sites in Kansas.</li>
-
-        <li>The heat map of haunted places layer shows where there is consentration of "spoooooky" locations.</li>
-
-        <li>The census heatmap shows the population of the different counties in Kansas.</li>
-
-        <li>The Display Only Analysis Map shows an extradited visual of a 1/4 mile buffer around haunted sites. </li>
-        
+      <!-- Overview content -->
+      <h1 style="font-size: 1.2em; ">Overview</h1>
+      <h3 style="font-size: 1em; font-weight: normal;">This map illustrates the relationship between haunted places in Kansas and nearby historic sites, cemeteries, hospitals, and population density, providing insight into potential connections among these locations.</h3>
+      <ul style="font-size: 0.9em; color: #5f5e5e;">
+        <li>The Haunted Places layer highlights locations reported to be "spoooooky."</li>
+        <li>The Historic Sites layer shows historically significant locations in Kansas.</li>
+        <li>The Haunted Places Heat Map highlights areas within Kansas with a high concentration of "spoooooky" locations.</li>
+        <li>The Census Demographic Map displays population densities across Kansas counties.</li>
+        <li>The Display Only Analysis Buffer presents an exaggerated visualization of a 1/4 mile buffer around haunted sites.</li>
       </ul>
       <style>
+        h1 {
+          margin-bottom: 5px; /* Space after summary h1 */
+        }
+        h3 {
+          margin-bottom: 10px; /* Space after h3 */
+        }
+
         li {
-          padding-bottom: 15px; /* Adjust the pixel value as needed */
+          padding-bottom: 10px; /* Adjust the pixel value as needed */
         }
       </style>
     </div>
@@ -155,7 +156,6 @@
   <!-- Leaflet and additional plugins -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
-  <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
 
   <!-- Include Turf.js for spatial analysis -->
   <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7.1.0/turf.min.js"></script>
