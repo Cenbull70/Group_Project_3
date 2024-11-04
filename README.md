@@ -18,18 +18,18 @@ project-directory/
 |   |   |-- Medical.csv
 |   |   |-- merged_battlefields_historical.csv
 |   |   |-- us_census_data_2024.csv
-|-- ERD_ERB/
-|   |-- Project3_ERD.png
-|   |-- Project3_Database.sql
-|   |-- Project3_schema.sql
-|-- cemetery.geojson
-|-- cemetery.json
-|-- haunted_places.geojson
-|-- historical_sites.geojson
-|-- hospitals.json
-|-- kansas-with-county-boundaries_1099.geojson
-|-- medical.geojson
-|-- us_census_data_2024.json
+|    -- ERD_ERB/
+|       |-- Project3_ERD.png
+|       |-- Project3_Database.sql
+|       |-- Project3_schema.sql
+|    -- cemetery.geojson
+|    -- cemetery.json
+|    -- haunted_places.geojson
+|    -- historical_sites.geojson
+|    -- hospitals.json
+|    -- kansas-with-county-boundaries_1099.geojson
+|    -- medical.geojson
+|    -- us_census_data_2024.json
 |-- static/
 |   |-- css/
 |   |   |-- style.css
