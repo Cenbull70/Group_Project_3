@@ -2,6 +2,48 @@
 ## Project Overview
 Lost Souls is an interactive web application designed to map haunted locations in Kansas and analyze their proximity to historical sites, hospitals, and cemeteries. This project integrates various spatial analysis techniques to reveal correlations and provide insight into the haunted landscape of Kansas.
 
+## Project Structure
+```bash
+project-directory/
+|-- Data/
+|   |-- CSV/
+|   |   |-- Battlefield_API_results/
+|   |   |-- Historical_Sites_API_results/
+|   |   |-- cemeteries_2013.csv
+|   |   |-- county_pts.csv
+|   |   |-- Haunted_Place_KS.csv
+|   |   |-- KS_battlefields.csv
+|   |   |-- KS_Historical.csv
+|   |   |-- KS_Historical_utf8.csv
+|   |   |-- Medical.csv
+|   |   |-- merged_battlefields_historical.csv
+|   |   |-- us_census_data_2024.csv
+|   |-- CSV_ERD/
+|-- ERD_ERB/
+|   |-- outdated/
+|   |-- Project3_Database.sql
+|   |-- Project3_schema.sql
+|-- cemetery.geojson
+|-- cemetery.json
+|-- haunted_places.geojson
+|-- historical_sites.geojson
+|-- hospitals.json
+|-- kansas-with-county-boundaries_1099.geojson
+|-- medical.geojson
+|-- us_census_data_2024.json
+|-- static/
+|   |-- css/
+|   |   |-- style.css
+|   |-- js/
+|       |-- logic.js
+|-- .gitignore
+|-- API_geojson.ipynb
+|-- index.html
+|-- Project3_Presentation.pptx
+|-- README.md
+```
+
+
 ## Key Features
 - Interactive Map: Explore haunted places, historical sites, and other points of interest on an intuitive and interactive map.
 - Heatmaps: Visualize the concentration of haunted locations across Kansas.
@@ -9,6 +51,16 @@ Lost Souls is an interactive web application designed to map haunted locations i
 - Nearby Places Analysis: Click on haunted locations to display nearby hospitals and cemeteries within a 5-mile radius.
 - Custom Layers: Toggle between haunted places, historical sites, census data, and analysis buffers for an in-depth view.
 - Responsive Sidebar: Access summarized information and detailed analyses through dynamically updated side panels.
+
+## Data Processing Scripts
+This repository includes Python scripts for processing and analyzing geospatial data related to battlefields, historical sites, cemeteries, haunted places, and medical facilities in Kansas. The scripts facilitate data collection from APIs, data merging, conversion to GeoJSON format, and database interactions for visualization and analysis.
+
+### Key Features
+- Automated Data Collection: Python scripts fetch location data from the Google Maps API and save it as CSV files.
+- Data Merging: Merges multiple datasets to create unified records of historical sites and battlefields.
+- GeoJSON Conversion: Converts CSV data to GeoJSON format for use in mapping and analysis.
+- Database Integration: Connects to PostgreSQL databases using SQLAlchemy to execute queries and retrieve data for further processing.
+
 
 ## Technologies Used
 - HTML5 & CSS3: Structuring and styling the application.
