@@ -18,9 +18,8 @@ project-directory/
 |   |   |-- Medical.csv
 |   |   |-- merged_battlefields_historical.csv
 |   |   |-- us_census_data_2024.csv
-|   |-- CSV_ERD/
 |-- ERD_ERB/
-|   |-- outdated/
+|   |-- Project3_ERD.png
 |   |-- Project3_Database.sql
 |   |-- Project3_schema.sql
 |-- cemetery.geojson
